@@ -25,5 +25,5 @@ void loop() {
     Serial.println(z, 2);
   }
 
-  delay(50); // ~20Hz sampling rate
+  delay(50); 
 }
