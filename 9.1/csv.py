@@ -1,36 +1,38 @@
-import serial
 import csv
 import time
+import random
 
-SERIAL_PORT = 'COM3'       
-BAUD_RATE = 9600
-CSV_FILENAME = 'crash_xyz_log.csv'
 
-ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-time.sleep(2)
+API_KEY = 'sk_test_9f8a1c2b7e4d4a1f9c3e2a7d'
+THING_ID = 'thing_abc123xyz789'
+
+CSV_FILENAME = 'crashdata.csv'
+NUM_ENTRIES = 100
+
+def generate_fake_entry():
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
+    x = round(random.uniform(-2.0, 2.0), 2)
+    y = round(random.uniform(-2.0, 2.0), 2)
+    z = round(random.uniform(-2.0, 2.0), 2)
+    linear = round((x**2 + y**2 + z**2)**0.5, 2)
+
+    if linear > 20:
+        status = "Crash Detected"
+    elif linear > 10:
+        status = "Sudden Movement"
+    else:
+        status = "Normal"
+
+    return [timestamp, x, y, z, linear, status]
 
 with open(CSV_FILENAME, mode='w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(['Timestamp', 'X', 'Y', 'Z', 'Crash Status'])
+    writer.writerow(['Timestamp', 'X', 'Y', 'Z', 'Linear Acceleration', 'Crash Status'])
 
-    print("Logging started...")
+    for _ in range(NUM_ENTRIES):
+        row = generate_fake_entry()
+        writer.writerow(row)
+        print("Logged:", row)
+        time.sleep(0.1)  # Simulate delay between entries
 
-    try:
-        while True:
-            line = ser.readline().decode('utf-8').strip()
-            if line.startswith("Timestamp:"):
-                try:
-                    parts = line.split(", ")
-                    timestamp = parts[0].split(": ")[1]
-                    x = parts[1].split(": ")[1]
-                    y = parts[2].split(": ")[1]
-                    z = parts[3].split(": ")[1]
-                    status = parts[4].split(": ")[1]
-
-                    writer.writerow([timestamp, x, y, z, status])
-                    print(f"{timestamp} | {x} | {y} | {z} | {status}")
-                except IndexError:
-                    continue
-    except KeyboardInterrupt:
-        print("\nLogging stopped.")
-        ser.close()
+print(f"\n✅ Fake cloud data saved to {CSV_FILENAME}")
