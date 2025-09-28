@@ -10,7 +10,7 @@ from pymongo import MongoClient
 HOST      = "48dc58d1ec874196bad88e5cee2158b3.s1.eu.hivemq.cloud"
 PORT      = 8883
 MQTT_USER = "nano33"            # <- same as Arduino
-MQTT_PASS = "Manit1234"    # <- same as Arduino
+MQTT_PASS = "Atharva1234"    # <- same as Arduino
 TOPIC     = "gyro/#"
 CLIENT_ID = "py-viewer-01"      # unique vs Arduino
 
@@ -64,3 +64,4 @@ client.on_message = on_message
 print("Connecting MQTT…")
 client.connect(HOST, PORT, keepalive=30)
 client.loop_forever()
+
