@@ -3,8 +3,8 @@
 #include <Arduino_LSM6DS3.h>
 
 // ===== Wi-Fi =====
-const char* ssid     = "S23 FE";        // your WiFi SSID
-const char* password = "manit1234";     // your WiFi password
+const char* ssid     = "iPhone";        // your WiFi SSID
+const char* password = "12345678";     // your WiFi password
 
 // ===== HiveMQ Cloud (TLS) =====
 const char* mqtt_server = "48dc58d1ec874196bad88e5cee2158b3.s1.eu.hivemq.cloud";
